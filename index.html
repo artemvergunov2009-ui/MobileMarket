@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MobileMarket</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background: #f97316;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .search {
+            margin-left: auto;
+        }
+        input {
+            padding: 7px;
+            margin-right: 8px;
+        }
+        button {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        nav button {
+            background: white;
+            color: #f97316;
+        }
+        .container {
+            width: 900px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">MobileMarket</a>
+        <a href="index.html">Главная</a>
+        <a href="#">Каталог</a>
+        <a href="#">Корзина</a>
+
+        <form class="search">
+            <input type="search" placeholder="Поиск товаров">
+            <button type="submit">Найти</button>
+        </form>
+    </nav>
+
+    <div class="container">
+        <h2>Популярные товары</h2>
+
+        <table>
+            <tr>
+                <th>Фото</th>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td><img src="https://ogo1.ru/upload/iblock/02c/hccwzl7vg21l879efdm1auzrbvuhb86q.jpeg" alt="AMD Ryzen 5 7600" width="80"></td>
+                <td>AMD Ryzen 5 7600</td>
+                <td>15990 ₽</td>
+                <td><button>В корзину</button></td>
+            </tr>
+            <tr>
+                <td><img src="https://avatars.mds.yandex.net/get-mpic/4453979/2a000001955a48992f3f876ea949f06500e5/orig" alt="NVIDIA GeForce RTX 4060" width="80"></td>
+                <td>NVIDIA GeForce RTX 4060</td>
+                <td>31990 ₽</td>
+                <td><button>В корзину</button></td>
+            </tr>
+            <tr>
+                <td><img src="https://avatars.mds.yandex.net/i?id=eec7532b654324a221d8aa2408a67dc67f8f669d-5887690-images-thumbs&n=13" alt="Kingston Fury 16GB DDR5" width="80"></td>
+                <td>Kingston Fury 16GB DDR5</td>
+                <td>4990 ₽</td>
+                <td><button>В корзину</button></td>
+            </tr>
+            <tr>
+                <td><img src="https://avatars.mds.yandex.net/get-mpic/18117352/2a0000019c751ec862a2c73cc3a9400b2b7e/orig" alt="Samsung 980 1TB NVMe" width="80"></td>
+                <td>Samsung 980 1TB NVMe</td>
+                <td>6990 ₽</td>
+                <td><button>В корзину</button></td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
