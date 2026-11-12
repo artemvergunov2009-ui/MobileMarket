@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime, ForeignKey, Index
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 
 engine = create_engine("postgresql+psycopg2://postgres:330017@localhost:5432/MobileMarket")
@@ -19,7 +19,7 @@ class Product(Base):
     description = Column(Text)
     price = Column(Integer, nullable=False)
     stock = Column(Integer, default=0)
-
+    image = Column(String(500))
 
 class CartItem(Base):
     __tablename__ = "cart"
@@ -28,7 +28,7 @@ class CartItem(Base):
     product_id = Column(Integer, ForeignKey("products.id"))
     quantity = Column(Integer, default=1)
     product = relationship("Product")
-
+    __table_args__ = (Index("idx_session_product", "session_id", "product_id"),)
 
 class Order(Base):
     __tablename__ = "orders"
@@ -38,7 +38,6 @@ class Order(Base):
     address = Column(String(200), nullable=False)
     created_at = Column(DateTime, default=datetime.now)
 
-
 class OrderItem(Base):
     __tablename__ = "order_items"
     id = Column(Integer, primary_key=True)
@@ -46,16 +45,14 @@ class OrderItem(Base):
     product_id = Column(Integer, ForeignKey("products.id"))
     quantity = Column(Integer, nullable=False)
     price = Column(Integer, nullable=False)
-
+    product = relationship("Product")
 
 def create_tables():
     Base.metadata.create_all(engine)
 
-
 def add_data():
     db = Session()
 
-    
     if db.query(Category).count() > 0:
         db.close()
         return
@@ -85,11 +82,10 @@ def add_data():
         (6, "HyperX Alloy Origins", "Механическая клавиатура.", 8990, 7),
     ]
     for n, name, desc, price, stock in items:
-        db.add(Product(category_id=categories[n].id, name=name,description=desc, price=price, stock=stock))
+        db.add(Product(category_id=categories[n].id, name=name, description=desc, price=price, stock=stock))
 
     db.commit()
     db.close()
-
 
 if __name__ == "__main__":
     create_tables()
@@ -97,5 +93,5 @@ if __name__ == "__main__":
 
     db = Session()
     for p in db.query(Product).order_by(Product.id).all():
-        print(p.id, p.name, p.price )
+        print(p.id, p.name, p.price)
     db.close()
