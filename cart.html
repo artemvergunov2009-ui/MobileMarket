@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Корзина</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #fff7ed;
+            color: #292524;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background: #ea580c;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #fed7aa;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #ffedd5;
+        }
+        th {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+        button {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #c2410c;
+        }
+        .btn-delete {
+            background: #ef4444;
+        }
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+        .total {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ea580c;
+            margin-bottom: 20px;
+        }
+        .btn-order {
+            display: inline-block;
+            background: #ea580c;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .btn-order:hover {
+            background: #c2410c;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">MobileMarket</a>
+        <a href="/">Главная</a>
+        <a href="/">Каталог</a>
+        <a href="/cart">Корзина ({{ cart_count }})</a>
+    </nav>
+
+    <div class="container">
+        <h2>Корзина</h2>
+
+        {% if items %}
+            <table>
+                <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Сумма</th>
+                    <th>Действие</th>
+                </tr>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }} ₽</td>
+                    <td>{{ item.quantity }} шт.</td>
+                    <td><b>{{ item.subtotal }} ₽</b></td>
+                    <td>
+                        <form action="/cart/delete/{{ item.id }}" method="post">
+                            <button type="submit" class="btn-delete">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div class="total">Итого: {{ total_price }} ₽</div>
+            <a href="/order" class="btn-order">Оформить заказ</a>
+        {% else %}
+            <p>Ваша корзина пока пуста.</p>
+            <a href="/" class="btn-order">Перейти к покупкам</a>
+        {% endif %}
+    </div>
+
+</body>
+</html>
