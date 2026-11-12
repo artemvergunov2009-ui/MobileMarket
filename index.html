@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MobileMarket</title>
- 
+
     <style>
         body {
             margin: 0;
-            background: #0d0d0d;
-            color: white;
+            background: #fff7ed;
+            color: #292524;
             font-family: Arial, sans-serif;
         }
         nav {
-            background: #f97316;
+            background: #ea580c;
             padding: 14px 30px;
             display: flex;
             align-items: center;
@@ -36,8 +36,10 @@
         input {
             padding: 8px;
             margin-right: 8px;
-            border: none;
+            border: 1px solid #fdba74;
             border-radius: 5px;
+            background: #ffffff;
+            color: #292524;
         }
         button {
             background: #f97316;
@@ -48,11 +50,15 @@
             cursor: pointer;
         }
         button:hover {
-            background: #ea580c;
+            background: #c2410c;
         }
         nav button {
-            background: white;
-            color: #f97316;
+            background: #ffedd5;
+            color: #c2410c;
+            font-weight: bold;
+        }
+        nav button:hover {
+            background: #ffffff;
         }
         .container {
             max-width: 1000px;
@@ -64,15 +70,16 @@
         }
         .categories a {
             display: inline-block;
-            background: #1a1a1a;
-            color: white;
+            background: #ffedd5;
+            color: #9a3412;
             text-decoration: none;
             padding: 8px 14px;
             margin: 0 6px 8px 0;
             border-radius: 20px;
         }
-        .categories a:hover {
+        .categories a:hover, .categories a.active {
             background: #f97316;
+            color: white;
         }
         .grid {
             display: grid;
@@ -81,13 +88,19 @@
             margin-bottom: 40px;
         }
         .card {
-            background: #1a1a1a;
+            background: #ffffff;
+            border: 1px solid #fed7aa;
             border-radius: 10px;
             padding: 15px;
             text-align: center;
+            box-shadow: 0 2px 6px rgba(234, 88, 12, 0.08);
+        }
+        .card a {
+            color: #292524;
+            text-decoration: none;
         }
         .photo {
-            background: white;
+            background: #fffaf5;
             border-radius: 8px;
             height: 160px;
             display: flex;
@@ -99,13 +112,20 @@
             max-width: 90%;
             max-height: 140px;
         }
+        .desc {
+            color: #78716c;
+            font-size: 13px;
+            margin-bottom: 10px;
+            height: 36px;
+            overflow: hidden;
+        }
         .card h3 {
             font-size: 16px;
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0;
             height: 40px;
         }
         .price {
-            color: #f97316;
+            color: #ea580c;
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 12px;
@@ -115,78 +135,54 @@
 <body>
 
     <nav>
-        <a href="index.html" class="logo">MobileMarket</a>
-        <a href="index.html">Главная</a>
-        <a href="#">Каталог</a>
-        <a href="#">Корзина</a>
+        <a href="/" class="logo">MobileMarket</a>
+        <a href="/">Главная</a>
+        <a href="/">Каталог</a>
+        <a href="/cart">Корзина ({{ cart_count }})</a>
 
-        <form class="search">
-            <input type="search" placeholder="Поиск товаров">
+        <form class="search" action="/" method="get">
+            <input type="search" name="q" placeholder="Поиск товаров" value="{{ search_query }}">
             <button type="submit">Найти</button>
         </form>
     </nav>
 
-
     <div class="container">
 
         <div class="categories">
-            <a href="#">Процессоры</a>
-            <a href="#">Видеокарты</a>
-            <a href="#">Материнские платы</a>
-            <a href="#">Память</a>
-            <a href="#">Накопители</a>
-            <a href="#">Блоки питания</a>
-            <a href="#">Периферия</a>
+            <a href="/" class="{% if not selected_category %}active{% endif %}">Все товары</a>
+            {% for cat in categories %}
+                <a href="/?category={{ cat.id }}" class="{% if selected_category == cat.id %}active{% endif %}">
+                    {{ cat.name }}
+                </a>
+            {% endfor %}
         </div>
 
-        <h2>Популярные товары</h2>
+        <h2>Каталог товаров</h2>
 
-
-        
         <div class="grid">
+            {% for p in products %}
             <div class="card">
                 <div class="photo">
-                    <img src="https://ogo1.ru/upload/iblock/02c/hccwzl7vg21l879efdm1auzrbvuhb86q.jpeg" alt="AMD Ryzen 5 7600">
+                    {% if p.image %}
+                        <img src="{{ p.image }}" alt="{{ p.name }}">
+                    {% else %}
+                        <span style="color: #a8a29e; font-size: 13px;">Нет фото</span>
+                    {% endif %}
                 </div>
-                <h3>AMD Ryzen 5 7600</h3>
-                <div class="price">15990 ₽</div>
-                <button>В корзину</button>
+                <h3><a href="/product/{{ p.id }}">{{ p.name }}</a></h3>
+                <div class="desc">{{ p.description }}</div>
+                <div class="price">{{ p.price }} ₽</div>
+
+                <form action="/cart/add/{{ p.id }}" method="post">
+                    <button type="submit">В корзину</button>
+                </form>
             </div>
-
-            <div class="card">
-                <div class="photo">
-                    <img src="https://avatars.mds.yandex.net/get-mpic/4453979/2a000001955a48992f3f876ea949f06500e5/orig" alt="NVIDIA GeForce RTX 4060">
-                </div>
-                <h3>NVIDIA GeForce RTX 4060</h3>
-                <div class="price">31990 ₽</div>
-                <button>В корзину</button>
-            </div>
-
-
-            <div class="card">
-                <div class="photo">
-                    <img src="https://avatars.mds.yandex.net/i?id=eec7532b654324a221d8aa2408a67dc67f8f669d-5887690-images-thumbs&n=13" alt="Kingston Fury 16GB DDR5">
-                </div>
-                <h3>Kingston Fury 16GB DDR5</h3>
-                <div class="price">4990 ₽</div>
-                <button>В корзину</button>
-            </div>
-
-
-            <div class="card">
-                <div class="photo">
-                    <img src="https://avatars.mds.yandex.net/get-mpic/18117352/2a0000019c751ec862a2c73cc3a9400b2b7e/orig" alt="Samsung 980 1TB NVMe">
-                </div>
-                <h3>Samsung 980 1TB NVMe</h3>
-                <div class="price">6990 ₽</div>
-                <button>В корзину</button>
-            </div>
+            {% else %}
+            <p>Товары не найдены.</p>
+            {% endfor %}
         </div>
 
     </div>
-
-
-
 
 </body>
 </html>
