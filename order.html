@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Оформление заказа</title>
+    <style>
+        body {
+            margin: 0;
+            background: #fff7ed;
+            color: #292524;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background: #ea580c;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .box {
+            max-width: 420px;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #fed7aa;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #fdba74;
+            border-radius: 5px;
+        }
+        button, .btn {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            text-decoration: none;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        button {
+            width: 95%;
+        }
+        button:hover, .btn:hover {
+            background: #c2410c;
+        }
+        .success {
+            color: #16a34a;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .warn {
+            color: #dc2626;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">MobileMarket</a>
+        <a href="/">Главная</a>
+        <a href="/">Каталог</a>
+        <a href="/cart">Корзина</a>
+        {auth_links}
+    </nav>
+
+    <div class="box">
+        {order_content}
+    </div>
+
+</body>
+</html>
