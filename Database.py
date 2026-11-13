@@ -6,6 +6,12 @@ engine = create_engine("postgresql+psycopg2://postgres:330017@localhost:5432/Mob
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    username = Column(String(100), nullable=False)
+    password = Column(String(100), nullable=False)
+
 class Category(Base):
     __tablename__ = "categories"
     id = Column(Integer, primary_key=True)
@@ -90,8 +96,3 @@ def add_data():
 if __name__ == "__main__":
     create_tables()
     add_data()
-
-    db = Session()
-    for p in db.query(Product).order_by(Product.id).all():
-        print(p.id, p.name, p.price)
-    db.close()
