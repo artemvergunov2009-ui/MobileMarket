@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Доставка и оплата</title>
+    <style>
+        body { margin: 0; background: #fff7ed; color: #292524; font-family: Arial, sans-serif; }
+        nav { background: #ea580c; padding: 14px 30px; display: flex; align-items: center; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        nav a:hover { text-decoration: underline; }
+        .logo { font-size: 22px; font-weight: bold; }
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .content-box { background: white; border: 1px solid #fed7aa; border-radius: 10px; padding: 30px; line-height: 1.6; }
+        h2 { color: #ea580c; margin-top: 0; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo">MobileMarket</a>
+        <a href="/">Главная</a>
+        <a href="/">Каталог</a>
+        <a href="/cart">Корзина ({cart_count})</a>
+        <a href="/about">О компании</a>
+        <a href="/contacts">Контакты</a>
+        <a href="/delivery">Доставка и оплата</a>
+        {auth_links}
+    </nav>
+    <div class="container">
+        <div class="content-box">
+            <h2>Условия доставки и оплаты</h2>
+            <h3>--Доставка--</h3>
+            <p>Мы делаем быструю доставку заказов на следующий день после оформления:</p>
+            <ul>
+                <li><b>Курьером по городу:</b> 650 ₽ (бесплатно при заказе от 20 000 ₽).</li>
+                <li><b>Самовывоз из пункта выдачи:</b> бесплатно, готовность через 2 часа.</li>
+                <li><b>Транспортными компаниями:</b> по тарифам ТК (СДЭК, Boxberry или Яндекс).</li>
+            </ul>
+            <h3>--Оплата--</h3>
+            <p>Вы можете оплатить заказ удобным для вас способом: картой на сайте при оформлении, наличными или картой курьеру когда будете получать</p>
+        </div>
+    </div>
+</body>
+</html>
