@@ -308,7 +308,7 @@ def logout():
     response = RedirectResponse(url="/", status_code=303)
     response.delete_cookie("user")
     return response
-#16 ноября, добавляем три лейдинга или как их там
+#16 ноября
 @app.get("/about", response_class=HTMLResponse)
 def about_page(request: Request):
     db = Session()
