@@ -308,6 +308,51 @@ def logout():
     response = RedirectResponse(url="/", status_code=303)
     response.delete_cookie("user")
     return response
+#16 ноября, добавляем три лейдинга или как их там
+@app.get("/about", response_class=HTMLResponse)
+def about_page(request: Request):
+    db = Session()
+    session_id = get_session_id(request)
+    cart_items = db.query(CartItem).filter(CartItem.session_id == session_id).all()
+    cart_count = sum(item.quantity for item in cart_items)
+    db.close()
+
+    with open("about.html", "r", encoding="utf-8") as f:
+        html = f.read()
+
+    html = html.replace("{cart_count}", str(cart_count))
+    html = html.replace("{auth_links}", get_auth_html(request))
+    return HTMLResponse(content=html)
+#///////////////////////////////////////////////////////////////////////////////////////////
+@app.get("/delivery", response_class=HTMLResponse)
+def delivery_page(request: Request):
+    db = Session()
+    session_id = get_session_id(request)
+    cart_items = db.query(CartItem).filter(CartItem.session_id == session_id).all()
+    cart_count = sum(item.quantity for item in cart_items)
+    db.close()
+
+    with open("delivery.html", "r", encoding="utf-8") as f:
+        html = f.read()
+
+    html = html.replace("{cart_count}", str(cart_count))
+    html = html.replace("{auth_links}", get_auth_html(request))
+    return HTMLResponse(content=html)
+#/////////////////////////////////////////////////////////////////////////////////////////////
+@app.get("/contacts", response_class=HTMLResponse)
+def contacts_page(request: Request):
+    db = Session()
+    session_id = get_session_id(request)
+    cart_items = db.query(CartItem).filter(CartItem.session_id == session_id).all()
+    cart_count = sum(item.quantity for item in cart_items)
+    db.close()
+
+    with open("contacts.html", "r", encoding="utf-8") as f:
+        html = f.read()
+
+    html = html.replace("{cart_count}", str(cart_count))
+    html = html.replace("{auth_links}", get_auth_html(request))
+    return HTMLResponse(content=html)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
