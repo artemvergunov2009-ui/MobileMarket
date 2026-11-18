@@ -50,7 +50,6 @@ def index(request: Request, category: int = None, q: str = None):
         else:
             img_tag = '<span style="color: #a8a29e; font-size: 13px;">Нет фото</span>'
 
-        # Кнопка "О товаре" только для товаров 1, 2 и 3
         if p.id in [1, 2, 3]:
             buttons_html = f"""
             <div style="display: flex; gap: 8px; margin-top: auto;">
@@ -94,7 +93,6 @@ def index(request: Request, category: int = None, q: str = None):
     response.set_cookie(key="session_id", value=session_id)
     return response
 
-# 3 Лендинга для товаров
 @app.get("/product/1", response_class=HTMLResponse)
 def product_1_page(request: Request):
     db = Session()
