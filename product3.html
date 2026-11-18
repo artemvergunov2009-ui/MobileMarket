@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>AMD Ryzen 7 7800X3D — MobileMarket</title>
+    <style>body { margin: 0; background: #fff7ed; color: #292524; font-family: Arial, sans-serif; } nav { background: #ea580c; padding: 14px 30px; display: flex; align-items: center; } nav a { color: white; text-decoration: none; margin-right: 20px; } nav a:hover { text-decoration: underline; } .logo { font-size: 22px; font-weight: bold; } .container { max-width: 900px; margin: 40px auto; padding: 0 20px; } .product-card { background: white; border: 1px solid #fed7aa; border-radius: 12px; padding: 30px; display: flex; gap: 40px; } .product-image { flex: 1; background: #fffaf5; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 20px; } .product-info { flex: 1; display: flex; flex-direction: column; } h1 { margin-top: 0; font-size: 26px; } .price { font-size: 28px; color: #ea580c; font-weight: bold; margin-bottom: 20px; } .block-title { font-weight: bold; color: #9a3412; margin-bottom: 5px; } .text-box { background: #fff7ed; padding: 15px; border-radius: 8px; margin-bottom: 20px; line-height: 1.5; } .btn-buy { background: #f97316; color: white; border: none; padding: 14px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; width: 100%; } .btn-buy:hover { background: #c2410c; } .btn-back { display: inline-block; margin-bottom: 20px; color: #ea580c; text-decoration: none; font-weight: bold; }</style>
+</head>
+<body>
+    <nav><a href="/" class="logo">MobileMarket</a><a href="/">Каталог</a><a href="/cart">Корзина ({cart_count})</a>{auth_links}</nav>
+    <div class="container">
+        <a href="/" class="btn-back">← Вернуться в каталог</a>
+        <div class="product-card">
+            <div class="product-image"><img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=500&auto=format&fit=crop" alt="Ryzen 7 3D" style="max-width: 100%; max-height: 350px;"></div>
+            <div class="product-info">
+                <h1>AMD Ryzen 7 7800X3D</h1>
+                <div class="price">38990 ₽</div>
+                <div class="block-title">Характеристики:</div>
+                <div class="text-box">8 ядер с технологией 3D V-Cache. На сегодняшний день — один из самых мощных игровых процессоров в мире.</div>
+                <div class="block-title">О производителе:</div>
+                <div class="text-box">AMD (США). Главный конкурент Intel. Разработала революционную технологию 3D V-Cache для геймеров.</div>
+                <form action="/cart/add/3" method="post" style="margin-top: auto;"><button type="submit" class="btn-buy">Добавить в корзину</button></form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
