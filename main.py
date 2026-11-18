@@ -17,7 +17,7 @@ def get_session_id(request: Request):
 
 def get_auth_html(request: Request):
     user = request.cookies.get("user")
-    if user: 
+    if user:          #Если что html тут внутри Python потому что сайт без джавы скрипт работает. обычный html сам не умеет доставать товары и юзеров из базы, поэтому питон собирает динамические куски тЭгов в строки и вставляет их в файлы через .replace() >:( а я не понимать джава скрипт
         return f'<span style="color: white; margin-right: 15px;">Привет, <b>{user}</b></span><a href="/logout">Выйти</a>'
     return '<a href="/login">Войти</a><a href="/register">Регистрация</a>'
 
