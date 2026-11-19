@@ -20,7 +20,6 @@ def get_session_id(request: Request):
 
 
 def show(request: Request, db, page: str, **data):
-    """Показывает страницу: добавляет в неё корзину и пользователя."""
     session_id = get_session_id(request)
     cart_items = db.query(CartItem).filter(CartItem.session_id == session_id).all()
 
@@ -231,21 +230,6 @@ def about_page(request: Request):
     db.close()
     return response
 
-
-@app.get("/delivery")
-def delivery_page(request: Request):
-    db = Session()
-    response = show(request, db, "delivery.html")
-    db.close()
-    return response
-
-
-@app.get("/contacts")
-def contacts_page(request: Request):
-    db = Session()
-    response = show(request, db, "contacts.html")
-    db.close()
-    return response
 
 
 if __name__ == "__main__":
