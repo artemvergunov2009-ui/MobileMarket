@@ -75,23 +75,61 @@
             font-weight: bold;
             margin-bottom: 15px;
         }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 15px 0;
+            text-align: left;
+        }
+        li {
+            padding: 8px 0;
+            border-bottom: 1px solid #fed7aa;
+        }
     </style>
 </head>
 <body>
 
     <nav>
-       <a href="/" class="logo">MobileMarket</a>
+        <a href="/" class="logo">MobileMarket</a>
         <a href="/">Главная</a>
         <a href="/">Каталог</a>
-        <a href="/cart">Корзина ({cart_count})</a>
-        <a href="/about">О компании</a>
-        <a href="/contacts">Контакты</a>
-        <a href="/delivery">Доставка и оплата</a>
-        {auth_links}
+        <a href="/cart">Корзина ({{ cart_count }})</a>
+        <a href="/about">О нас</a>
+        {% if user %}
+            <span style="color: white; margin-right: 15px;">Привет, <b>{{ user }}</b></span>
+            <a href="/logout">Выйти</a>
+        {% else %}
+            <a href="/login">Войти</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
     </nav>
 
     <div class="box">
-        {order_content}
+        {% if not user %}
+            <div class="warn">Сначала нужно зарегистрироваться или войти!</div>
+            <p>Оформлять заказы могут только авторизованные пользователи.</p>
+            <a href="/login" class="btn">Войти</a>
+            <a href="/register" class="btn">Регистрация</a>
+        {% else %}
+            <h2>Оформление заказа</h2>
+
+            <h3 style="text-align: left;">Ваш заказ:</h3>
+            <ul>
+                {% for item in items %}
+                    <li>{{ item.product.name }} — {{ item.quantity }} шт. <b>({{ item.product.price * item.quantity }} ₽)</b></li>
+                {% endfor %}
+            </ul>
+            <div style="text-align: right; font-size: 18px; font-weight: bold; color: #ea580c; margin-bottom: 15px;">
+                К оплате: {{ total }} ₽
+            </div>
+
+            <form action="/order" method="post">
+                <input type="text" name="customer_name" value="{{ user }}" placeholder="Ваше имя" required>
+                <input type="text" name="phone" placeholder="Телефон" required>
+                <input type="text" name="address" placeholder="Адрес доставки" required>
+                <button type="submit">Подтвердить заказ</button>
+            </form>
+        {% endif %}
     </div>
 
 </body>
