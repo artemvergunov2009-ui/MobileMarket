@@ -71,17 +71,18 @@
         <a href="/">Главная</a>
         <a href="/">Каталог</a>
         <a href="/cart">Корзина</a>
-        <a href="/contacts">Контакты</a>
     </nav>
 
     <div class="box">
         <h2>Вход</h2>
 
-        {error}
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
 
         <form action="/login" method="post">
             <input type="text" name="username" placeholder="Логин" required>
-            <input type="password" name="password" placeholder="Парол" required>
+            <input type="password" name="password" placeholder="Пароль" required>
             <button type="submit">Войти</button>
         </form>
 
