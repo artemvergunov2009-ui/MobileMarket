@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MobileMarket</title>
-
     <style>
         body {
             margin: 0;
@@ -52,11 +51,6 @@
         button:hover {
             background: #c2410c;
         }
-        nav button {
-            background: #ffedd5;
-            color: #c2410c;
-            font-weight: bold;
-        }
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -90,6 +84,8 @@
             border-radius: 10px;
             padding: 15px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
         }
         .photo {
             background: #fffaf5;
@@ -122,38 +118,92 @@
             font-weight: bold;
             margin-bottom: 12px;
         }
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+        .card-buttons a, .card-buttons form {
+            flex: 1;
+            margin: 0;
+        }
+        .card-buttons a {
+            background: #ffedd5;
+            color: #c2410c;
+            text-decoration: none;
+            padding: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 1px solid #fdba74;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
 
     <nav>
         <a href="/" class="logo">MobileMarket</a>
-        <a href="/">Главная</a>
         <a href="/">Каталог</a>
-        <a href="/cart">Корзина ({cart_count})</a>
-        <a href="/about">О компании</a>
+        <a href="/about">О нас</a>
+        <a href="/delivery">Доставка</a>
         <a href="/contacts">Контакты</a>
-        <a href="/delivery">Доставка и оплата</a>
-        {auth_links}
+        <a href="/cart">Корзина ({{ cart_count }})</a>
+        {% if user %}
+            <span style="color: white; margin-right: 15px;">Привет, <b>{{ user }}</b></span>
+            <a href="/logout">Выйти</a>
+        {% else %}
+            <a href="/login">Войти</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
 
         <form class="search" action="/" method="get">
-            <input type="search" name="q" placeholder="Поиск товаров">
+            <input type="search" name="q" placeholder="Поиск товаров" value="{{ q or '' }}">
             <button type="submit">Найти</button>
         </form>
     </nav>
 
     <div class="container">
-
         <div class="categories">
-            {categories}
+            <a href="/">Все товары</a>
+            {% for c in categories %}
+                <a href="/?category={{ c.id }}">{{ c.name }}</a>
+            {% endfor %}
         </div>
 
         <h2>Каталог товаров</h2>
-
         <div class="grid">
-            {products}
-        </div>
+            {% for p in products %}
+                <div class="card" id="product-{{ p.id }}">
+                    <div class="photo">
+                        {% if p.image %}
+                            <img src="{{ p.image }}" alt="{{ p.name }}">
+                        {% else %}
+                            <span style="color: #a8a29e; font-size: 13px;">Нет фото</span>
+                        {% endif %}
+                    </div>
+                    <h3>{{ p.name }}</h3>
+                    <div class="desc">{{ p.description }}</div>
+                    <div class="price">{{ p.price }} ₽</div>
 
+                    {% if p.id in special_ids %}
+                        <div class="card-buttons">
+                            <a href="/product/{{ p.id }}">О товаре</a>
+                            <form action="/cart/add/{{ p.id }}" method="post">
+                                <button type="submit" style="width: 100%; height: 100%;">В корзину</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <form action="/cart/add/{{ p.id }}" method="post" style="margin-top: auto;">
+                            <button type="submit" style="width: 100%;">В корзину</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>Товары не найдены.</p>
+            {% endfor %}
+        </div>
     </div>
 
 </body>
