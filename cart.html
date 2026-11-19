@@ -90,16 +90,49 @@
         <a href="/" class="logo">MobileMarket</a>
         <a href="/">Главная</a>
         <a href="/">Каталог</a>
-        <a href="/cart">Корзина ({cart_count})</a>
-        <a href="/about">О компании</a>
-        <a href="/contacts">Контакты</a>
-        <a href="/delivery">Доставка и оплата</a>
-        {auth_links}
+        <a href="/cart">Корзина ({{ cart_count }})</a>
+        <a href="/about">О нас</a>
+        {% if user %}
+            <span style="color: white; margin-right: 15px;">Привет, <b>{{ user }}</b></span>
+            <a href="/logout">Выйти</a>
+        {% else %}
+            <a href="/login">Войти</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
     </nav>
 
     <div class="container">
         <h2>Корзина</h2>
-        {cart_content}
+
+        {% if items %}
+            <table>
+                <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Сумма</th>
+                    <th>Действие</th>
+                </tr>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price }} ₽</td>
+                    <td>{{ item.quantity }} шт.</td>
+                    <td><b>{{ item.product.price * item.quantity }} ₽</b></td>
+                    <td>
+                        <form action="/cart/delete/{{ item.id }}" method="post">
+                            <button type="submit" class="btn-delete">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="total">Итого: {{ total }} ₽</div>
+            <a href="/order" class="btn-order">Оформить заказ</a>
+        {% else %}
+            <p>Ваша корзина пока пуста.</p>
+            <a href="/" class="btn-order">Перейти к покупкам</a>
+        {% endif %}
     </div>
 
 </body>
