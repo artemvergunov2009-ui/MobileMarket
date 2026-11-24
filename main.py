@@ -1,4 +1,4 @@
-import uuid 
+import uuid
 import uvicorn
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import RedirectResponse
@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 from Database import Session, Category, Product, CartItem, User, Order, OrderItem, create_tables, add_data
 
 app = FastAPI()
-templates = Jinja2Templates(directory=".")
+templates = Jinja2Templates(directory="templates")
 
 create_tables()
 add_data()
@@ -17,6 +17,13 @@ def get_session_id(request: Request):
     if not session_id:
         session_id = str(uuid.uuid4())
     return session_id
+
+
+def to_int(value):
+    #тут я сделал функцию которая делает из числа строку, изначальн если оставить поле пустым то там вызывалась ошибка на фастапи а теперь фастапи его игнорирует
+    if value and value.isdigit():
+        return int(value)
+    return None
 
 
 def show(request: Request, db, page: str, **data):
@@ -32,8 +39,12 @@ def show(request: Request, db, page: str, **data):
 
 
 @app.get("/")
-def index(request: Request, category: int = None, q: str = None):
+def index(request: Request, category: int = None, q: str = None,
+          min_price: str = None, max_price: str = None, sort: str = None):
     db = Session()
+
+    min_price = to_int(min_price)
+    max_price = to_int(max_price)
 
     query = db.query(Product)
     if category:
@@ -41,10 +52,24 @@ def index(request: Request, category: int = None, q: str = None):
     if q:
         query = query.filter(Product.name.ilike(f"%{q}%"))
 
-    products = query.order_by(Product.id).all()
+    if min_price is not None:
+        query = query.filter(Product.price >= min_price)
+    if max_price is not None:
+        query = query.filter(Product.price <= max_price)
+
+    #Сортировочка
+    if sort == "cheap":
+        query = query.order_by(Product.price.asc())
+    elif sort == "expensive":
+        query = query.order_by(Product.price.desc())
+    else:
+        query = query.order_by(Product.id)
+
+    products = query.all()
     categories = db.query(Category).all()
 
-    response = show(request, db, "index.html", products=products, categories=categories, q=q)
+    response = show(request, db, "index.html", products=products, categories=categories,
+                    q=q, category=category, min_price=min_price, max_price=max_price, sort=sort)
     db.close()
     return response
 
@@ -229,7 +254,6 @@ def about_page(request: Request):
     response = show(request, db, "about.html")
     db.close()
     return response
-
 
 
 if __name__ == "__main__":
