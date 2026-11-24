@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -71,6 +71,22 @@
         .categories a:hover {
             background: #f97316;
             color: white;
+        }
+        .filter {
+            background: #ffffff;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .filter input, .filter select {
+            padding: 8px;
+            margin-right: 8px;
+            border: 1px solid #fdba74;
+            border-radius: 5px;
+        }
+        .filter input[type="number"] {
+            width: 110px;
         }
         .grid {
             display: grid;
@@ -169,6 +185,29 @@
                 <a href="/?category={{ c.id }}">{{ c.name }}</a>
             {% endfor %}
         </div>
+
+        <form class="filter" action="/" method="get">
+            {% if category %}
+                <input type="hidden" name="category" value="{{ category }}">
+            {% endif %}
+            {% if q %}
+                <input type="hidden" name="q" value="{{ q }}">
+            {% endif %}
+
+            Цена от
+            <input type="number" name="min_price" min="0" value="{{ min_price if min_price is not none else '' }}">
+            до
+            <input type="number" name="max_price" min="0" value="{{ max_price if max_price is not none else '' }}">
+
+            <select name="sort">
+                <option value="">Сортировка</option>
+                <option value="cheap" {% if sort == 'cheap' %}selected{% endif %}>Сначала дешёвые</option>
+                <option value="expensive" {% if sort == 'expensive' %}selected{% endif %}>Сначала дорогие</option>
+            </select>
+
+            <button type="submit">Применить</button>
+            <a href="/" style="color: #c2410c; margin-left: 10px;">Сбросить</a>
+        </form>
 
         <h2>Каталог товаров</h2>
         <div class="grid">
