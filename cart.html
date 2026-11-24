@@ -88,11 +88,10 @@
 
     <nav>
         <a href="/" class="logo">MobileMarket</a>
-        <a href="/">Главная</a>
         <a href="/">Каталог</a>
-        <a href="/cart">Корзина ({{ cart_count }})</a>
         <a href="/about">О нас</a>
         {% if user %}
+        <a href="/cart">Корзина ({{ cart_count }})</a>
             <span style="color: white; margin-right: 15px;">Привет, <b>{{ user }}</b></span>
             <a href="/logout">Выйти</a>
         {% else %}
