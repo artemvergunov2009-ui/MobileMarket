@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>О компании</title>
+    <style>
+        body { margin: 0; background: #fff7ed; color: #292524; font-family: Arial, sans-serif; }
+        nav { background: #ea580c; padding: 14px 30px; display: flex; align-items: center; }
+        nav a { color: white; text-decoration: none; margin-right: 20px; }
+        nav a:hover { text-decoration: underline; }
+        .logo { font-size: 22px; font-weight: bold; }
+        .search { margin-left: auto; }
+        input { padding: 8px; margin-right: 8px; border: 1px solid #fdba74; border-radius: 5px; }
+        button { background: #f97316; color: white; border: none; padding: 10px 16px; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #c2410c; }
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .content-box { background: white; border: 1px solid #fed7aa; border-radius: 10px; padding: 30px; line-height: 1.6; }
+        h2 { color: #ea580c; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">MobileMarket</a>
+        <a href="/">Каталог</a>
+        <a href="/about">О нас</a>
+        <a href="/company">О компании</a>
+        <a href="/contacts">Контакты</a>
+        <a href="/cart">Корзина ({{ cart_count }})</a>
+        {% if user %}
+            <span style="color: white; margin-right: 15px;">Привет, <b>{{ user }}</b></span>
+            <a href="/logout">Выйти</a>
+        {% else %}
+            <a href="/login">Войти</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
+
+        <form class="search" action="/" method="get">
+            <input type="search" name="q" placeholder="Поиск товаров">
+            <button type="submit">Найти</button>
+        </form>
+    </nav>
+
+    <div class="container">
+        <div class="content-box">
+            <h2>О компании</h2>
+            <p>
+                MobileMarket — интернет-магазин компьютерных частей. Мы продаём процессоры,
+                видеокарты, материнские платы, и тддд.
+            </p>
+            <p>
+                Наша цель помочь каждому собрать части для своешл компьютера
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>
