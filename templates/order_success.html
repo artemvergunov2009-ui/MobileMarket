@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Заказ оформлен</title>
+    <style>
+        body {
+            margin: 0;
+            background: #fff7ed;
+            color: #292524;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background: #ea580c;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .box {
+            max-width: 420px;
+            margin: 50px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #fed7aa;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 15px 5px 5px 5px;
+        }
+        .btn:hover {
+            background: #c2410c;
+        }
+        .success {
+            color: #16a34a;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">MobileMarket</a>
+        <a href="/">Каталог</a>
+        <a href="/cart">Корзина ({{ cart_count }})</a>
+        <a href="/about">О нас</a>
+        {% if user %}
+            <span style="color: white; margin-right: 15px;">Привет, <b>{{ user }}</b></span>
+            <a href="/logout">Выйти</a>
+        {% else %}
+            <a href="/login">Войти</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
+    </nav>
+
+    <div class="box">
+        <div class="success">Заказ №{{ order_id }} успешно оформлен!</div>
+        <p>Спасибо за покупку, <b>{{ customer_name }}</b>! Мы свяжемся с вами по номеру {{ phone }}.</p>
+        <a href="/" class="btn">Вернуться в каталог</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MobileMarket</title>
+    <style>
+        body {
+            margin: 0;
+            background: #fff7ed;
+            color: #292524;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background: #ea580c;
+            padding: 14px 30px;
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .search {
+            margin-left: auto;
+        }
+        input {
+            padding: 8px;
+            margin-right: 8px;
+            border: 1px solid #fdba74;
+            border-radius: 5px;
+            background: #ffffff;
+            color: #292524;
+        }
+        button {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #c2410c;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .categories {
+            margin: 30px 0 10px 0;
+        }
+        .categories a {
+            display: inline-block;
+            background: #ffedd5;
+            color: #9a3412;
+            text-decoration: none;
+            padding: 8px 14px;
+            margin: 0 6px 8px 0;
+            border-radius: 20px;
+        }
+        .categories a:hover {
+            background: #f97316;
+            color: white;
+        }
+        .filter {
+            background: #ffffff;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .filter input, .filter select {
+            padding: 8px;
+            margin-right: 8px;
+            border: 1px solid #fdba74;
+            border-radius: 5px;
+        }
+        .filter input[type="number"] {
+            width: 110px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #fed7aa;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+        .photo {
+            background: #fffaf5;
+            border-radius: 8px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .photo img {
+            max-width: 90%;
+            max-height: 140px;
+        }
+        .desc {
+            color: #78716c;
+            font-size: 13px;
+            margin-bottom: 10px;
+            height: 36px;
+            overflow: hidden;
+        }
+        .card h3 {
+            font-size: 16px;
+            margin: 0 0 8px 0;
+            height: 40px;
+        }
+        .price {
+            color: #ea580c;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+        .card-buttons a, .card-buttons form {
+            flex: 1;
+            margin: 0;
+        }
+        .card-buttons a {
+            background: #ffedd5;
+            color: #c2410c;
+            text-decoration: none;
+            padding: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            border: 1px solid #fdba74;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">MobileMarket</a>
+        <a href="/">Каталог</a>
+        <a href="/about">О нас</a>
+        <a href="/cart">Корзина ({{ cart_count }})</a>
+        {% if user %}
+            <span style="color: white; margin-right: 15px;">Дароу, <b>{{ user }}</b></span>
+            <a href="/logout">Выйти</a>
+        {% else %}
+            <a href="/login">Войти</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
+
+        <form class="search" action="/" method="get">
+            <input type="search" name="q" placeholder="Поиск товаров" value="{{ q or '' }}">
+            <button type="submit">Найти</button>
+        </form>
+    </nav>
+
+    <div class="container">
+        <div class="categories">
+            <a href="/">Все товары</a>
+            {% for c in categories %}
+                <a href="/?category={{ c.id }}">{{ c.name }}</a>
+            {% endfor %}
+        </div>
+
+        <form class="filter" action="/" method="get">
+            {% if category %}
+                <input type="hidden" name="category" value="{{ category }}">
+            {% endif %}
+            {% if q %}
+                <input type="hidden" name="q" value="{{ q }}">
+            {% endif %}
+
+            Цена от
+            <input type="number" name="min_price" min="0" value="{{ min_price if min_price is not none else '' }}">
+            до
+            <input type="number" name="max_price" min="0" value="{{ max_price if max_price is not none else '' }}">
+
+            <select name="sort">
+                <option value="">Сортировка</option>
+                <option value="cheap" {% if sort == 'cheap' %}selected{% endif %}>Сначала дешёвые</option>
+                <option value="expensive" {% if sort == 'expensive' %}selected{% endif %}>Сначала дорогие</option>
+            </select>
+
+            <button type="submit">Применить</button>
+            <a href="/" style="color: #c2410c; margin-left: 10px;">Сбросить</a>
+        </form>
+
+        <h2>Каталог товаров</h2>
+        <div class="grid">
+            {% for p in products %}
+                <div class="card" id="product-{{ p.id }}">
+                    <div class="photo">
+                        {% if p.image %}
+                            <img src="{{ p.image }}" alt="{{ p.name }}">
+                        {% else %}
+                            <span style="color: #a8a29e; font-size: 13px;">Нет фото</span>
+                        {% endif %}
+                    </div>
+                    <h3>{{ p.name }}</h3>
+                    <div class="desc">{{ p.description }}</div>
+                    <div class="price">{{ p.price }} ₽</div>
+                    <form action="/cart/add/{{ p.id }}" method="post" style="margin-top: auto;">
+                        <button type="submit" style="width: 100%;">В корзину</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>Товары не найдены.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
