@@ -249,21 +249,21 @@ def logout():
 
 
 @app.get("/about")
-def about_page(request: Request):
+def onas_page(request: Request):
     db = Session()
     response = show(request, db, "about.html")
     db.close()
     return response
 
 @app.get("/company")
-def company_page(request: Request):
+def ocompanii_page(request: Request):
     db = Session()
     response = show(request, db, "company.html")
     db.close()
     return response
 
 @app.get("/contacts")
-def contacts_page(request: Request):
+def Kontakti_page(request: Request):
     db = Session()
     response = show(request, db, "contacts.html")
     db.close()
